@@ -7,20 +7,34 @@
 #include <Logger.h>
 #include <DebugMgr.h>
 
+#include "SceneMgr.hpp"
+#include "TextureMgr.h"
+
 int main()
 {
     gData.Init();
 
-    sf::RenderWindow window(sf::VideoMode({ 1080, 720 }), "SFML works!", sf::State::Windowed);
+    sf::RenderWindow window(sf::VideoMode({ 1080, 720 }), "Please work...", sf::State::Windowed);
 
     ImGui::SFML::Init(window);
 
-    Logger::Info("This is an info message. That is useful");
-    Logger::Warning("This is a warning message. Should I worry?");
-    Logger::Error("This is an error message. Oh sh*t!!");
-
     sf::Clock clock;
     clock.restart();
+
+    gData.SceneMgr->AddScene("Scene0");
+    gData.SceneMgr->AddScene("Scene1");
+    gData.SceneMgr->AddScene("Scene2");
+
+    gData.SceneMgr->GetScene("Scene0")->AddEntity("Entity0");
+    gData.SceneMgr->GetScene("Scene0")->AddEntity("Entity1");
+
+    gData.SceneMgr->GetScene("Scene1")->AddEntity("Entity0");
+
+    std::string objUuid = gData.SceneMgr->GetScene("Scene2")->AddEntity("Entity0")->GetUuid();
+    gData.SceneMgr->GetScene("Scene2")->RemoveEntity(objUuid);
+
+    bool pls = gData.TextureMgr->LoadTexture("C:/Users/b.candela/Documents/Project/Cpp/VampireSurvivorEngine/rubika_26_27_cpp_public/MyEngine/Ressources/IsaacSprite.png");
+
 
     while (window.isOpen())
     {

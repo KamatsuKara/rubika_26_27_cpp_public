@@ -2,8 +2,11 @@
 
 #include <SFML/Graphics/Texture.hpp>
 
+#include "DebugMgr.h"
+
 #include <filesystem>
 #include <string>
+#include <map>
 
 struct AnimationData
 {
@@ -31,21 +34,32 @@ struct StaticTileData
 
 struct TextureData
 {
-	TextureData();
+	enum Type {
+		Animation,
+		StaticTile
+	};
+
+	TextureData(Type);
 	~TextureData();
 
+	inline Type GetType() const { return type; }
+
 	sf::Texture Texture;
-	// Container of AnimationData AnimationsData;
-	// Container of StaticTileData StaticTilesData;
+	std::map<std::string, AnimationData> animationData;
+	std::map<std::string, StaticTileData> staticTileData;
 
 	friend class TextureMgr;
+private:
+	Type type;
 };
 
-class TextureMgr final
+class TextureMgr final : public IDebugable
 {
 public:
 	void Init();
 	void Shut();
+
+	virtual void DrawDebug() override;
 
 	/*
 	 * Loads the texture using the given path, including its metadata.
@@ -59,4 +73,7 @@ public:
 	 * Returns the corresponding TextureData using the name of the texture. Returns the default TextureData in case of an unknown name
 	 */
 	const TextureData& GetTextureData(const std::string& name) const;
+
+private:
+	std::map<std::string, TextureData> textures;
 };
