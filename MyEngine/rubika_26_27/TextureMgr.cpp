@@ -84,7 +84,10 @@ bool TextureMgr::LoadTexture(const std::filesystem::path& path) {
 const TextureData& TextureMgr::GetTextureData(const std::string& name) const {
 	const auto& texture = textures.find(name);
 	if (texture != textures.end()) return texture->second;
-	else return TextureData(TextureData::Type::Animation);
+	else {
+		Logger::Error("No Texture Data name : " + name);
+		return LoadTexture();
+	}
 }
 
 void TextureMgr::DrawDebug()
