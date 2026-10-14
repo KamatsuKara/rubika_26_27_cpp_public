@@ -23,12 +23,14 @@ Globals::~Globals()
 void Globals::Init()
 {
 	Logger->Init();
+	SceneMgr->Init();
 	TextureMgr->Init();
 }
 
 void Globals::Shut()
 {
 	Logger->Shut();
+	SceneMgr->Shut();
 	TextureMgr->Init();
 }
 

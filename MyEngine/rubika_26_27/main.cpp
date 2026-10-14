@@ -34,6 +34,11 @@ int main()
     gData.SceneMgr->GetScene("Scene2")->RemoveEntity(objUuid);
 
     bool pls = gData.TextureMgr->LoadTexture("C:/Users/b.candela/Documents/Project/Cpp/VampireSurvivorEngine/rubika_26_27_cpp_public/MyEngine/Ressources/IsaacSprite.png");
+    pls &= gData.TextureMgr->LoadTexture("C:/Users/b.candela/Documents/Project/Cpp/VampireSurvivorEngine/rubika_26_27_cpp_public/MyEngine/Ressources/Basement.png");
+    pls &= gData.TextureMgr->LoadTexture("C:/Users/b.candela/Documents/Project/Cpp/VampireSurvivorEngine/rubika_26_27_cpp_public/MyEngine/Ressources/enemy_texture_1.png");
+    pls &= gData.TextureMgr->LoadTexture("C:/Users/b.candela/Documents/Project/Cpp/VampireSurvivorEngine/rubika_26_27_cpp_public/MyEngine/Ressources/enemy_texture_2.png");
+    pls &= gData.TextureMgr->LoadTexture("C:/Users/b.candela/Documents/Project/Cpp/VampireSurvivorEngine/rubika_26_27_cpp_public/MyEngine/Ressources/enemy_texture_3.png");
+    pls &= gData.TextureMgr->LoadTexture("C:/Users/b.candela/Documents/Project/Cpp/VampireSurvivorEngine/rubika_26_27_cpp_public/MyEngine/Ressources/enemy_texture_4.png");
 
 
     while (window.isOpen())

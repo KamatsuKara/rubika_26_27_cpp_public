@@ -2,6 +2,7 @@
 
 #ifdef _USE_IMGUI
 #include <Imgui/imgui.h>
+#include <Imgui/imgui-SFML.h>
 #endif
 #include <rapidxml/rapidxml.hpp>
 #include <rapidxml/rapidxml_utils.hpp>
@@ -17,7 +18,7 @@ bool readXmlStaticTileData(rapidxml::xml_node<char>*, StaticTileData&, std::stri
 
 
 TextureData::TextureData(Type type):type(type) {
-
+	
 }
 
 TextureData::~TextureData() {
@@ -26,6 +27,7 @@ TextureData::~TextureData() {
 
 void TextureMgr::Init()
 {
+	LoadTexture("C:/Users/b.candela/Documents/Project/Cpp/VampireSurvivorEngine/rubika_26_27_cpp_public/MyEngine/Ressources/Default.png");
 	gData.DebugMgr->RegisterDebugableWindow("Textures", this);
 }
 
@@ -66,13 +68,13 @@ bool TextureMgr::LoadTexture(const std::filesystem::path& path) {
 		if (!readXmlAnimations(root, texture, fileName)) return false;
 	}
 	else if (strcmp(root->name(), "Backgrounds") == 0) {
-		TextureData texture = TextureData(TextureData::Type::StaticTile);
+		texture = TextureData(TextureData::Type::StaticTile);
 		if (!readXmlBackgrounds(root, texture, fileName)) return false;
 	}
 	else {
 		Logger::Error("LoadTexture failed (" + fileName + ") : first node unrecognized"); return false;
 	}
-
+	
 	if (!texture.Texture.loadFromFile(path)) {
 		Logger::Error("LoadTexture failed (" + fileName + ") : fail to load image"); return false;
 	}
@@ -86,13 +88,82 @@ const TextureData& TextureMgr::GetTextureData(const std::string& name) const {
 	if (texture != textures.end()) return texture->second;
 	else {
 		Logger::Error("No Texture Data name : " + name);
-		return LoadTexture();
+		return GetTextureData("Default");
 	}
 }
 
 void TextureMgr::DrawDebug()
 {
 #ifdef _USE_IMGUI
+	static char str[512] = "Hello, world!";
+	ImGui::InputText("##InputFilePath", str, 512);
+	ImGui::SameLine();
+	if (ImGui::Button("Load"))
+	{
+		LoadTexture(str);
+		/*if ()
+			ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "Loading successful");
+		else
+			ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Loading fail, see the consol for more information");*/
+	}
+
+	for (const auto& texturePair : textures) {
+		std::string textureName = texturePair.first;
+		const TextureData& texture = texturePair.second;
+
+		bool isOpen = ImGui::TreeNode(("##RootTree" + textureName).c_str());
+		ImGui::SameLine();
+		ImGui::SeparatorText(textureName.c_str());
+		if (isOpen) {
+			ImVec2 canvas_size(50,50);
+			ImGui::Image(texture.Texture);
+			if (texture.type == TextureData::Type::Animation) {
+				if (ImGui::TreeNode("Animations")) {
+					for (const auto& animPair : texture.animationData) {
+						std::string animName = animPair.first;
+						const AnimationData& anim = animPair.second;
+						
+						if (ImGui::TreeNode(animName.c_str())) {
+							ImGui::Text(("X :" + std::to_string(anim.StartX)).c_str());
+							ImGui::Text(("Y :" + std::to_string(anim.StartY)).c_str());
+							ImGui::Text(("SizeX :" + std::to_string(anim.SizeX)).c_str());
+							ImGui::Text(("SizeY :" + std::to_string(anim.SizeY)).c_str());
+							ImGui::Text(("OffsetX :" + std::to_string(anim.OffsetX)).c_str());
+							ImGui::Text(("OffsetY :" + std::to_string(anim.OffsetY)).c_str());
+							ImGui::Text(("SpriteNum :" + std::to_string(anim.AnimationSpriteCount)).c_str());
+							ImGui::Text(("SpritesOnLine :" + std::to_string(anim.SpriteOnLine)).c_str());
+							ImGui::Text(("Reverted :" + std::to_string(anim.IsReverted)).c_str());
+
+							ImGui::TreePop();
+						}
+					}
+					ImGui::TreePop();
+				}
+			}
+			else {
+				if (ImGui::TreeNode("Backgrounds")) {
+					for (const auto& tilePair : texture.staticTileData) {
+						std::string tileName = tilePair.first;
+						const StaticTileData& tile = tilePair.second;
+
+						if (ImGui::TreeNode(tileName.c_str())) {
+							ImGui::Text(("X :" + std::to_string(tile.StartX)).c_str());
+							ImGui::Text(("Y :" + std::to_string(tile.StartY)).c_str());
+							ImGui::Text(("SizeX :" + std::to_string(tile.SizeX)).c_str());
+							ImGui::Text(("SizeY :" + std::to_string(tile.SizeY)).c_str());
+							ImGui::Text(("RevertedX :" + std::to_string(tile.IsRevertedX)).c_str());
+							ImGui::Text(("RevertedY :" + std::to_string(tile.IsRevertedY)).c_str());
+
+							ImGui::TreePop();
+						}
+					}
+					ImGui::TreePop();
+				}
+			}
+			ImGui::TreePop();
+		}
+	}
+
 
 #endif
 }
@@ -193,7 +264,7 @@ bool readXmlAnimationData(rapidxml::xml_node<char>* anim, AnimationData& animDat
 }
 
 bool readXmlBackgrounds(rapidxml::xml_node<char>* root, TextureData& texture, std::string fileName) {
-	rapidxml::xml_node<char>* tile = root->first_node("Animation");
+	rapidxml::xml_node<char>* tile = root->first_node("Tile");
 	while (tile != nullptr) {
 		if (tile->first_attribute("Name") == nullptr) {
 			Logger::Error("LoadTexture failed (" + fileName + ") : a tile doesn't have a name"); return false;
