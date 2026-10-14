@@ -2,6 +2,7 @@
 
 #include <string>
 #include "TransformComponent.h"
+#include "RenderComponent.hpp"
 
 namespace sf
 {
@@ -15,6 +16,7 @@ public:
 	virtual ~Entity();
 
 	TransformComponent transform;
+	RenderComponent render;
 
 	virtual void Start();
 	virtual void Update(float fDeltaTime);

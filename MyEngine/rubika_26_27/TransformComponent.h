@@ -2,7 +2,9 @@
 
 #include <SFML/Graphics/Transform.hpp>
 
-class TransformComponent
+#include "IComponent.h"
+
+class TransformComponent : public IComponent
 {
 public:
 	struct DecomposedData
@@ -12,7 +14,7 @@ public:
 		sf::Vector2f Scale;
 	};
 
-	TransformComponent();
+	TransformComponent(Entity&);
 	~TransformComponent();
 
 

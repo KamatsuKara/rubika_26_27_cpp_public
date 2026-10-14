@@ -1,8 +1,7 @@
 #include "Entity.h"
 #include "uuid.hpp"
 
-Entity::Entity(std::string friendlyName):friendlyName(friendlyName) {
-	transform = TransformComponent();
+Entity::Entity(std::string friendlyName):friendlyName(friendlyName),transform(*this),render(*this) {
 	uuid = uuid::generate_uuid();
 }
 
