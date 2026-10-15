@@ -1,10 +1,11 @@
 #pragma once
 
 #include <string>
+#include "DebugMgr.h"
 
 class Entity;
 
-class IComponent abstract
+class IComponent abstract : public IDebugable
 {
 public:
 	IComponent() = delete;
@@ -12,10 +13,10 @@ public:
 
 	virtual ~IComponent(){}
 
+	virtual std::string GetName() = 0;
+
 	virtual void Start() = 0;
-
 	virtual void Update(float fDeltaTime) = 0;
-
 	virtual void Destroy() = 0;
 
 protected:

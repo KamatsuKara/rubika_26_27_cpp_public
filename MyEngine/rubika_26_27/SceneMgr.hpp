@@ -21,7 +21,7 @@ public:
 	virtual void DrawDebug() override;
 
 	Scene* AddScene(std::string);
-	bool SetActiveScene(std::string&);
+	bool SetActiveScene(std::string);
 	
 	inline Scene* GetScene(std::string name) { return &scenes.find(name)->second; }
 

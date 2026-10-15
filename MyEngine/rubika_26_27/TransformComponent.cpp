@@ -1,3 +1,7 @@
+#ifdef _USE_IMGUI
+#include <Imgui/imgui.h>
+#endif
+
 #include "TransformComponent.h"
 
 TransformComponent::TransformComponent(Entity& parent):IComponent(parent)
@@ -79,4 +83,22 @@ void TransformComponent::UpdateMatrix()
 	Matrix.translate(WorldPosition);
 	Matrix.rotate(sf::degrees(Rotation));
 	Matrix.scale(Scale);
+}
+
+
+void TransformComponent::DrawDebug() {
+#ifdef _USE_IMGUI
+	float vec2Pos[2] = { WorldPosition.x, WorldPosition.y};
+	ImGui::InputFloat2("World Position", vec2Pos);
+	SetWorldPosition(sf::Vector2f(vec2Pos[0], vec2Pos[1]));
+
+	float rot[1] = { Rotation };
+	ImGui::InputFloat("Rotation", rot);
+	SetRotation(rot[0]);
+
+	float vec2Scale[2] = { Scale.x, Scale.y };
+	ImGui::InputFloat2("Scale", vec2Scale);
+	SetScale(sf::Vector2f(vec2Scale[0], vec2Scale[1]));
+
+#endif
 }

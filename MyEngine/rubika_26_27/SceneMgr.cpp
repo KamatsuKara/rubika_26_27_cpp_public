@@ -50,6 +50,14 @@ void SceneMgr::Destroy() {
 	activeScene->Destroy();
 }
 
+void SceneMgr::Draw(sf::RenderWindow& window) const {
+	if (activeScene == nullptr) {
+		Logger::Warning("There no active scene (SceneMgr::Draw)");
+		return;
+	}
+	activeScene->Draw(window);
+}
+
 Scene* SceneMgr::AddScene(std::string sceneName) {
 	if (!scenes.contains(sceneName)) {
 		scenes.insert({ sceneName, Scene(sceneName)});
@@ -61,7 +69,7 @@ Scene* SceneMgr::AddScene(std::string sceneName) {
 	}
 }
 
-bool SceneMgr::SetActiveScene(std::string& sceneName) {
+bool SceneMgr::SetActiveScene(std::string sceneName) {
 	if (scenes.contains(sceneName)) {
 		activeScene = &scenes.find(sceneName)->second;
 		return true;
@@ -79,10 +87,11 @@ void SceneMgr::DrawDebug()
 	//for (const std::pair<std::string, Scene>& scenePair : scenes) {
 	for (const auto& scenePair : scenes) {
 		std::string sceneName = scenePair.second.GetName();
+		Scene& scene = const_cast<Scene&>(scenePair.second);
 		ImGui::PushID(sceneName.c_str());
 		bool isOpen = ImGui::TreeNode("");
 		ImGui::SameLine();
-		if (activeScene != nullptr && scenePair.second.GetName() == activeScene->GetName()) {
+		if (activeScene != nullptr && sceneName == activeScene->GetName()) {
 			ImGui::TextColored(ImVec4(1.0f, 1.0f, 1.0f, 1.0f), sceneName.c_str(), sceneName);
 		}
 		else {
@@ -96,15 +105,12 @@ void SceneMgr::DrawDebug()
 		ImGui::SameLine();
 		if (ImGui::Button("Add Entity"))
 		{
-			Scene& scene = const_cast<Scene&>(scenePair.second);
-			scene.AddEntity("Entity" + std::to_string(scenePair.second.GetNmbEntity()));
+			scene.AddEntity("Entity" + std::to_string(scene.GetNmbEntity()));
 		}
 
 		if (isOpen)
-		{			
-			for (int i = 0; i < scenePair.second.GetNmbEntity(); i++) {
-				ImGui::Text(scenePair.second.GetEntity(i)->GetFriendlyName().c_str());
-			}
+		{	
+			scene.DrawDebug();
 			ImGui::TreePop();
 		}
 		ImGui::PopID();

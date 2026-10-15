@@ -1,3 +1,7 @@
+#ifdef _USE_IMGUI
+#include <Imgui/imgui.h>
+#endif
+
 #include "Scene.h"
 
 Scene::Scene(const std::string& name):name(name) {
@@ -59,4 +63,17 @@ void Scene::Draw(sf::RenderWindow& window) const {
 	for (Entity* entity : entities) {
 		entity->Draw(window);
 	}
+}
+
+void Scene::DrawDebug() {
+#ifdef _USE_IMGUI
+	for(Entity* entity : entities){
+		bool isOpen = ImGui::TreeNode(entity->GetFriendlyName().c_str());
+		if (isOpen)
+		{
+			entity->DrawDebug();
+			ImGui::TreePop();
+		}
+	}
+#endif
 }

@@ -3,10 +3,13 @@
 class RectangleShape : public IDrawable
 {
 public:
-	RectangleShape(sf::Vector2f);
+	RectangleShape();
+	
+	void setFillColor(sf::Color);
 
 	virtual void Start();
 	virtual void Update(float deltaTime);
 	virtual void Destroy();
 private:
+
 };

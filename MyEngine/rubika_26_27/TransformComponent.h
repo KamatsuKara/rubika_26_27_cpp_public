@@ -17,6 +17,8 @@ public:
 	TransformComponent(Entity&);
 	~TransformComponent();
 
+	void DrawDebug();
+	inline std::string GetName() { return "Transform"; }
 
 	const sf::Transform& GetMatrix() const;
 

@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 
+#include "DebugMgr.h"
 #include "Entity.h"
 
 namespace sf
@@ -10,12 +11,14 @@ namespace sf
 	class RenderWindow;
 }
 
-class Scene
+class Scene : public IDebugable
 {
 public:
 
 	Scene(const std::string& name);
 	~Scene();
+
+	void DrawDebug();
 
 	virtual void Start();
 	virtual void Update(float fDeltaTime);

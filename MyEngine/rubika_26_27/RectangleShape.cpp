@@ -2,10 +2,16 @@
 
 #include <SFML/Graphics/RectangleShape.hpp>
 
-RectangleShape::RectangleShape(sf::Vector2f size) {
-	Drawable = new sf::RectangleShape(size);
+RectangleShape::RectangleShape() {
+	Drawable = new sf::RectangleShape(sf::Vector2f(50,50));
+	WorldTransform = sf::Transform();
+	
 }
 
+void RectangleShape::setFillColor(sf::Color color) {
+	sf::RectangleShape* rect = static_cast<sf::RectangleShape*>(Drawable);
+	rect->setFillColor(color);
+}
 
 void RectangleShape::Start()
 {

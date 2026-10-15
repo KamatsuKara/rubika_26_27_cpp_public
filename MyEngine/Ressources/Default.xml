@@ -4,11 +4,7 @@
         <Y>0</Y>
         <SizeX>50</SizeX>
         <SizeY>50</SizeY>
-        <OffsetX>0</OffsetX>
-        <OffsetY>0</OffsetY>
-        <SpriteNum>0</SpriteNum>
-        <SpritesOnLine>0</SpritesOnLine>
-        <Reverted>0</Reverted>
-        <TimeBetweenAnimation>0.0</TimeBetweenAnimation>
+        <RevertedX>0</RevertedX>
+        <RevertedY>0</RevertedY>
     </Tile>
 </Backgrounds>

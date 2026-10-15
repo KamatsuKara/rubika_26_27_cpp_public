@@ -95,7 +95,7 @@ const TextureData& TextureMgr::GetTextureData(const std::string& name) const {
 void TextureMgr::DrawDebug()
 {
 #ifdef _USE_IMGUI
-	static char str[512] = "Hello, world!";
+	static char str[512] = "";
 	ImGui::InputText("##InputFilePath", str, 512);
 	ImGui::SameLine();
 	if (ImGui::Button("Load"))

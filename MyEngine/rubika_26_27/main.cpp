@@ -10,6 +10,11 @@
 #include "SceneMgr.hpp"
 #include "TextureMgr.h"
 
+#include "TransformComponent.h"
+#include "RenderComponent.hpp"
+
+#include "RectangleShape.hpp"
+
 int main()
 {
     gData.Init();
@@ -23,15 +28,21 @@ int main()
 
     gData.SceneMgr->AddScene("Scene0");
     gData.SceneMgr->AddScene("Scene1");
-    gData.SceneMgr->AddScene("Scene2");
+    //gData.SceneMgr->AddScene("Scene2");
 
     gData.SceneMgr->GetScene("Scene0")->AddEntity("Entity0");
     gData.SceneMgr->GetScene("Scene0")->AddEntity("Entity1");
 
-    gData.SceneMgr->GetScene("Scene1")->AddEntity("Entity0");
+    Entity* currentEntity = gData.SceneMgr->GetScene("Scene1")->AddEntity("Entity0");
+    
+    RectangleShape* rect = currentEntity->AddComponent<RenderComponent>()->AddDrawable<RectangleShape>();
+    rect->setFillColor(sf::Color(255, 255, 255, 255));
+    TransformComponent* currentEntityTransform = currentEntity->AddComponent<TransformComponent>();
+    currentEntityTransform->SetWorldPosition(sf::Vector2f(50, 50));
+    rect->SetWorldTransform(currentEntityTransform->GetMatrix());
 
-    std::string objUuid = gData.SceneMgr->GetScene("Scene2")->AddEntity("Entity0")->GetUuid();
-    gData.SceneMgr->GetScene("Scene2")->RemoveEntity(objUuid);
+    /*std::string objUuid = gData.SceneMgr->GetScene("Scene2")->AddEntity("Entity0")->GetUuid();
+    gData.SceneMgr->GetScene("Scene2")->RemoveEntity(objUuid);*/
 
     bool pls = gData.TextureMgr->LoadTexture("C:/Users/b.candela/Documents/Project/Cpp/VampireSurvivorEngine/rubika_26_27_cpp_public/MyEngine/Ressources/IsaacSprite.png");
     pls &= gData.TextureMgr->LoadTexture("C:/Users/b.candela/Documents/Project/Cpp/VampireSurvivorEngine/rubika_26_27_cpp_public/MyEngine/Ressources/Basement.png");
@@ -40,6 +51,7 @@ int main()
     pls &= gData.TextureMgr->LoadTexture("C:/Users/b.candela/Documents/Project/Cpp/VampireSurvivorEngine/rubika_26_27_cpp_public/MyEngine/Ressources/enemy_texture_3.png");
     pls &= gData.TextureMgr->LoadTexture("C:/Users/b.candela/Documents/Project/Cpp/VampireSurvivorEngine/rubika_26_27_cpp_public/MyEngine/Ressources/enemy_texture_4.png");
 
+    gData.SceneMgr->SetActiveScene("Scene1");
 
     while (window.isOpen())
     {
@@ -72,6 +84,7 @@ int main()
 #ifdef _USE_IMGUI
         ImGui::SFML::Update(window, imGuiTime);
 #endif
+        gData.SceneMgr->Update(fDeltaTimeMS);
 
         // sample
         //ImGui::ShowDemoWindow();
@@ -83,9 +96,11 @@ int main()
         PROFILER_EVENT_BEGIN(PROFILER_COLOR_GREEN, "Draw");
         window.clear();
 
+        gData.SceneMgr->Draw(window);
+
 #ifdef _USE_IMGUI
         ImGui::SFML::Render(window);
-#endif
+#endif        
         window.display();
 
         PROFILER_EVENT_END();
