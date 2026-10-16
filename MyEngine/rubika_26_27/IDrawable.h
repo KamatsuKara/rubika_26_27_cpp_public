@@ -20,10 +20,14 @@ public:
 	const sf::Transform& GetWorldTransform() const;
 	void SetWorldTransform(const sf::Transform& transform);
 
+	void SetOffset(sf::Vector2f);
+	sf::Vector2f GetOffset() const;
+
 	void Draw(sf::RenderWindow& window) const;
 
 protected:
 	bool Visible;
 	sf::Transform WorldTransform;
+	sf::Vector2f offset = sf::Vector2f(0,0);
 	sf::Drawable* Drawable; // Pointer to the SFML derived class defined in IDrawable's derived class
 };

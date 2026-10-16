@@ -26,6 +26,16 @@ void IDrawable::SetWorldTransform(const sf::Transform& transform)
 	WorldTransform = transform;
 }
 
+void IDrawable::SetOffset(sf::Vector2f newOffset)
+{
+	offset = newOffset;
+}
+
+sf::Vector2f IDrawable::GetOffset() const
+{
+	return offset;
+}
+
 void IDrawable::Draw(sf::RenderWindow& window) const
 {
 	if (!Drawable)
@@ -35,6 +45,7 @@ void IDrawable::Draw(sf::RenderWindow& window) const
 
 	sf::RenderStates states = sf::RenderStates::Default;
 	states.transform = WorldTransform;
+	states.transform.translate(offset);
 
 	window.draw(*Drawable, states);
 }

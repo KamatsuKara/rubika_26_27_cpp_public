@@ -26,24 +26,6 @@ int main()
     sf::Clock clock;
     clock.restart();
 
-    gData.SceneMgr->AddScene("Scene0");
-    gData.SceneMgr->AddScene("Scene1");
-    //gData.SceneMgr->AddScene("Scene2");
-
-    gData.SceneMgr->GetScene("Scene0")->AddEntity("Entity0");
-    gData.SceneMgr->GetScene("Scene0")->AddEntity("Entity1");
-
-    Entity* currentEntity = gData.SceneMgr->GetScene("Scene1")->AddEntity("Entity0");
-    
-    RectangleShape* rect = currentEntity->AddComponent<RenderComponent>()->AddDrawable<RectangleShape>();
-    rect->setFillColor(sf::Color(255, 255, 255, 255));
-    TransformComponent* currentEntityTransform = currentEntity->AddComponent<TransformComponent>();
-    currentEntityTransform->SetWorldPosition(sf::Vector2f(50, 50));
-    rect->SetWorldTransform(currentEntityTransform->GetMatrix());
-
-    /*std::string objUuid = gData.SceneMgr->GetScene("Scene2")->AddEntity("Entity0")->GetUuid();
-    gData.SceneMgr->GetScene("Scene2")->RemoveEntity(objUuid);*/
-
     bool pls = gData.TextureMgr->LoadTexture("C:/Users/b.candela/Documents/Project/Cpp/VampireSurvivorEngine/rubika_26_27_cpp_public/MyEngine/Ressources/IsaacSprite.png");
     pls &= gData.TextureMgr->LoadTexture("C:/Users/b.candela/Documents/Project/Cpp/VampireSurvivorEngine/rubika_26_27_cpp_public/MyEngine/Ressources/Basement.png");
     pls &= gData.TextureMgr->LoadTexture("C:/Users/b.candela/Documents/Project/Cpp/VampireSurvivorEngine/rubika_26_27_cpp_public/MyEngine/Ressources/enemy_texture_1.png");
@@ -51,7 +33,18 @@ int main()
     pls &= gData.TextureMgr->LoadTexture("C:/Users/b.candela/Documents/Project/Cpp/VampireSurvivorEngine/rubika_26_27_cpp_public/MyEngine/Ressources/enemy_texture_3.png");
     pls &= gData.TextureMgr->LoadTexture("C:/Users/b.candela/Documents/Project/Cpp/VampireSurvivorEngine/rubika_26_27_cpp_public/MyEngine/Ressources/enemy_texture_4.png");
 
+    gData.SceneMgr->AddScene("Scene1");
+
+    Entity* currentEntity = gData.SceneMgr->GetScene("Scene1")->AddEntity("Entity0");
+    RectangleShape* rect = currentEntity->AddComponent<RenderComponent>()->AddDrawable<RectangleShape>();
+    rect->SetTextureAndStaticTile("Basement", "Corner_Top_Left");
+    TransformComponent* currentEntityTransform = currentEntity->AddComponent<TransformComponent>();
+    currentEntityTransform->SetWorldPosition(sf::Vector2f(50, 50));
+    rect->SetWorldTransform(currentEntityTransform->GetMatrix());
+
     gData.SceneMgr->SetActiveScene("Scene1");
+
+    gData.SceneMgr->Start();
 
     while (window.isOpen())
     {
@@ -70,6 +63,7 @@ int main()
         {
             if (event->is<sf::Event::Closed>())
             {
+                gData.SceneMgr->Destroy();
                 window.close();
             }
 

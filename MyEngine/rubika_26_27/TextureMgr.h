@@ -19,7 +19,7 @@ struct AnimationData
 	int AnimationSpriteCount = 0;
 	int SpriteOnLine = 0;
 	bool IsReverted = false;
-	float TimeBetweenAnimationInS = 0.f;
+	float TimeBetweenAnimationInS = 0.1f;
 };
 
 struct StaticTileData

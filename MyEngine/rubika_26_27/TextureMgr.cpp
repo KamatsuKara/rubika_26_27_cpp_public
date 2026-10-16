@@ -190,7 +190,7 @@ bool readXmlAnimations(rapidxml::xml_node<char>* root, TextureData& texture, std
 }
 bool readXmlAnimationData(rapidxml::xml_node<char>* anim, AnimationData& animData, std::string fileName, std::string animName) {
 	rapidxml::xml_node<char>* animParams = anim->first_node();
-	int paramNmb = 9;
+	int paramNmb = 10;
 	while (animParams != nullptr) {
 		if (strcmp(animParams->name(),"X") == 0) {
 			paramNmb--;
@@ -255,10 +255,17 @@ bool readXmlAnimationData(rapidxml::xml_node<char>* anim, AnimationData& animDat
 				Logger::Error("LoadTexture failed (" + fileName + "." + animName + ") : invalide value for Reverted"); return false;
 			}
 		}
+		else if (strcmp(animParams->name(), "TimeBetweenAnimation") == 0) {
+			paramNmb--;
+			try { animData.TimeBetweenAnimationInS = std::stof(animParams->value()); }
+			catch (const char* msg) {
+				Logger::Error("LoadTexture failed (" + fileName + "." + animName + ") : invalide value for TimeBetweenAnimationInS"); return false;
+			}
+		}
 		animParams = animParams->next_sibling();
 	}
 	if(paramNmb != 0){
-		Logger::Error("LoadTexture failed (" + fileName + "." + animName + ") : invalide count of params " + std::to_string(paramNmb)); return false;
+		Logger::Warning("LoadTexture (" + fileName + "." + animName + ") : incorrect number of params, " + (paramNmb>0?"missing ":"") + std::to_string(paramNmb)+ (paramNmb > 0 ? " params" : "more params"));
 	}
 	return true;
 }
