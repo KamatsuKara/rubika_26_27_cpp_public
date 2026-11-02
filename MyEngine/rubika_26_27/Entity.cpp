@@ -1,9 +1,9 @@
 #ifdef _USE_IMGUI
 #include <Imgui/imgui.h>
 #endif
+#include "uuid.hpp"
 
 #include "Entity.h"
-#include "uuid.hpp"
 
 Entity::Entity(std::string friendlyName):friendlyName(friendlyName) {
 	uuid = uuid::generate_uuid();

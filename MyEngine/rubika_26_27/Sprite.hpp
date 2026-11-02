@@ -1,6 +1,11 @@
 #include "IDrawable.h"
 #include "TextureMgr.h"
 
+namespace sf
+{
+	class Sprite;
+}
+
 class Sprite : public IDrawable
 {
 public:
