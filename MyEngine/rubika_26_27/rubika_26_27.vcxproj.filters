@@ -78,6 +78,9 @@
     <ClCompile Include="TextureMgr.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="IDrawable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -149,7 +152,16 @@
     <ClInclude Include="SceneMgr.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="IComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IDrawable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="TextureMgr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="InputAction.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
