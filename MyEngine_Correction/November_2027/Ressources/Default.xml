@@ -1,0 +1,10 @@
+<Backgrounds>
+    <Tile Name="Default">
+        <X>0</X>
+        <Y>0</Y>
+        <SizeX>50</SizeX>
+        <SizeY>50</SizeY>
+        <RevertedX>0</RevertedX>
+        <RevertedY>0</RevertedY>
+    </Tile>
+</Backgrounds>

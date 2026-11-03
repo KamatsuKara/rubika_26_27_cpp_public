@@ -1,0 +1,24 @@
+<InputActions>
+    <InputAction Name="Up"/>
+    <InputAction Name="Down"/>
+    <InputAction Name="Left"/>
+    <InputAction Name="Right"/>
+</InputActions>
+<Bindings>
+    <Binding>
+        <Keyboard Key="UpArrow"/>
+        <InputAction>Up</InputAction>
+    </Binding>
+    <Binding>
+        <Keyboard Key="DownArrow"/>
+        <InputAction>Down</InputAction>
+    </Binding>
+    <Binding>
+        <Keyboard Key="LeftArrow"/>
+        <InputAction>Left</InputAction>
+    </Binding>
+    <Binding>
+        <Keyboard Key="RightArrow"/>
+        <InputAction>Right</InputAction>
+    </Binding>
+</Bindings>

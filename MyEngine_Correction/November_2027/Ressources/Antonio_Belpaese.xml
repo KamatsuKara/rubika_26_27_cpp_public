@@ -1,0 +1,50 @@
+<Animations>
+    <Animation Name="Idle_Right">
+        <X>5</X>
+        <Y>22</Y>
+        <SizeX>32</SizeX>
+        <SizeY>32</SizeY>
+        <OffsetX>0</OffsetX>
+        <OffsetY>0</OffsetY>
+        <SpriteNum>0</SpriteNum>
+        <SpritesOnLine>0</SpritesOnLine>
+        <Reverted>0</Reverted>
+        <TimeBetweenAnimation>0</TimeBetweenAnimation>
+    </Animation>
+    <Animation Name="Walk_Right">
+        <X>5</X>
+        <Y>22</Y>
+        <SizeX>32</SizeX>
+        <SizeY>32</SizeY>
+        <OffsetX>4</OffsetX>
+        <OffsetY>0</OffsetY>
+        <SpriteNum>4</SpriteNum>
+        <SpritesOnLine>4</SpritesOnLine>
+        <Reverted>0</Reverted>
+        <TimeBetweenAnimation>0.5</TimeBetweenAnimation>
+    </Animation>
+<Animation Name="Idle_Left">
+        <X>5</X>
+        <Y>22</Y>
+        <SizeX>32</SizeX>
+        <SizeY>32</SizeY>
+        <OffsetX>0</OffsetX>
+        <OffsetY>0</OffsetY>
+        <SpriteNum>0</SpriteNum>
+        <SpritesOnLine>0</SpritesOnLine>
+        <Reverted>1</Reverted>
+        <TimeBetweenAnimation>0</TimeBetweenAnimation>
+    </Animation>
+    <Animation Name="Walk_Left">
+        <X>5</X>
+        <Y>22</Y>
+        <SizeX>32</SizeX>
+        <SizeY>32</SizeY>
+        <OffsetX>4</OffsetX>
+        <OffsetY>0</OffsetY>
+        <SpriteNum>4</SpriteNum>
+        <SpritesOnLine>4</SpritesOnLine>
+        <Reverted>1</Reverted>
+        <TimeBetweenAnimation>0.5</TimeBetweenAnimation>
+    </Animation>
+</Animations>
