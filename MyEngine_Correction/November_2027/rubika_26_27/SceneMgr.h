@@ -30,6 +30,7 @@ public:
 	void DeleteScene(Scene* s);
 
 	Scene* SetActiveScene(const std::string& sceneName);
+	inline Scene* GetActiveScene() { return ActiveScene; }
 
 	virtual void DrawDebug() override;
 

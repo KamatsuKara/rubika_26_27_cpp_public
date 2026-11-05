@@ -24,6 +24,8 @@ public:
 	template <typename E>
 	E* CreateEntity(const std::string& entityName);
 	void RemoveEntity(Entity* entity);
+	
+	void UpdateCacheEntity(Entity* changedEntity);
 
 	/*
 	 * This function will be removed later, when the rendering system will be more robust. But for now, we need it here.
@@ -35,11 +37,15 @@ public:
 	const std::string& GetName() const { return Name; }
 	std::size_t GetHash() const { return Hash; }
 
+
 protected:
 
 	std::string Name;
 	std::size_t Hash;
 	std::vector<Entity*> Entities;
+
+	std::vector<Entity*> StaticEntities;
+	std::vector<Entity*> DynamicEntities;
 };
 
 #include "Scene.hxx"

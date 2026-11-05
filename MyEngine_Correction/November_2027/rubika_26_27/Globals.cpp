@@ -6,6 +6,8 @@
 #include <InputMgr.hpp>
 #include <TextureMgr.h>
 
+#include <Profiler.h>
+
 Globals gData;
 
 Globals::Globals() : FrameCount(0)
@@ -32,8 +34,12 @@ void Globals::Init()
 
 void Globals::Update(float deltaTime)
 {
+	PROFILER_EVENT_BEGIN(PROFILER_COLOR_WHITE, "Compute Input");
 	InputMgr->Update(deltaTime);
+	PROFILER_EVENT_END();
+	PROFILER_EVENT_BEGIN(PROFILER_COLOR_ORANGE, "Update Scene");
 	SceneMgr->Update(deltaTime);
+	PROFILER_EVENT_END();
 }
 
 void Globals::Shut()

@@ -13,6 +13,8 @@
 #include <SpriteDrawable.h>
 
 Player::Player(std::string friendlyName) :Entity(friendlyName) {
+    tags = Tags::Tag::Dynamic | Tags::Tag::Player;
+
     TransformComponent* tc = AddComponent<TransformComponent>();
     {
         tc->SetWorldPosition(sf::Vector2f(100.f, 100.f));

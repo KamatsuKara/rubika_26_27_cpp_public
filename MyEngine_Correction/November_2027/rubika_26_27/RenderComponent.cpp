@@ -3,6 +3,8 @@
 #include <TransformComponent.h>
 #include <Entity.h>
 
+#include <Profiler.h>
+
 RenderComponent::RenderComponent(Entity& entity) : IComponent(entity)
 {}
 
@@ -28,6 +30,7 @@ void RenderComponent::Start()
 
 void RenderComponent::Update(float fDeltaTime)
 {
+	PROFILER_EVENT_BEGIN(PROFILER_COLOR_RED, "Update Render");
 	for (const DrawableInfo& info : Drawables)
 	{
 		if (info.Drawable->IsVisible())
@@ -44,6 +47,7 @@ void RenderComponent::Update(float fDeltaTime)
 			info.Drawable->Update(fDeltaTime);
 		}
 	}
+	PROFILER_EVENT_END();
 }
 
 void RenderComponent::Destroy()

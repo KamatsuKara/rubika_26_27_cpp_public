@@ -12,6 +12,8 @@
 #include <RectangleDrawable.h>
 
 Obstacle::Obstacle(std::string friendlyName) :Entity(friendlyName) {
+    tags = Tags::Tag::Static;
+
     TransformComponent* tc = AddComponent<TransformComponent>();
     {
         tc->SetWorldPosition(sf::Vector2f(100.f, 100.f));

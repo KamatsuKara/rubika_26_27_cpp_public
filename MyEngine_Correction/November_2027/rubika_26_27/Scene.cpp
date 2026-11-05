@@ -4,6 +4,7 @@
 #include "ColliderComponent.h"
 
 #include <Imgui/imgui.h>
+#include <Profiler.h>
 
 Scene::Scene(const std::string& name) : Name(name)
 {
@@ -23,11 +24,15 @@ void Scene::Start()
 
 void Scene::Update(float fDeltaTime)
 {
+	PROFILER_EVENT_BEGIN(PROFILER_COLOR_BLACK, "Update Entity");
 	for (Entity* e : Entities)
 	{
 		e->Update(fDeltaTime);
 	}
+	PROFILER_EVENT_END();
 
+
+	PROFILER_EVENT_BEGIN(PROFILER_COLOR_GREEN, "Compute Collision");
 	for (std::size_t i1 = 0; i1 < Entities.size(); ++i1)
 	{
 		if (ColliderComponent* colliderE1 = Entities[i1]->GetComponent<ColliderComponent>()) {
@@ -43,6 +48,7 @@ void Scene::Update(float fDeltaTime)
 			}
 		}
 	}
+	PROFILER_EVENT_END();
 }
 
 void Scene::Destroy()
@@ -63,6 +69,28 @@ void Scene::RemoveEntity(Entity* entity)
 			it = Entities.erase(it);
 		}
 	}
+}
+
+void Scene::UpdateCacheEntity(Entity* changedEntity) {
+	for (int i = 0; i < StaticEntities.size(); ++i) {
+		if (StaticEntities[i] = changedEntity) {
+			StaticEntities.erase(StaticEntities.begin() + i);
+			break;
+		}
+	}
+
+	for (int i = 0; i < DynamicEntities.size(); ++i) {
+		if (DynamicEntities[i] = changedEntity) {
+			DynamicEntities.erase(DynamicEntities.begin() + i);
+			break;
+		}
+	}
+
+	if (changedEntity->HasTag(Tags::Tag::Static))
+		StaticEntities.push_back(changedEntity);
+
+	if (changedEntity->HasTag(Tags::Tag::Dynamic))
+		DynamicEntities.push_back(changedEntity);
 }
 
 void Scene::Draw(sf::RenderWindow& window) const

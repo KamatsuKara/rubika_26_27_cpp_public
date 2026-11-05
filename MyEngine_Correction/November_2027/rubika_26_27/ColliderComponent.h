@@ -1,6 +1,7 @@
 #pragma once
 
 #include <IComponent.h>
+#include "Tag.hpp"
 
 #include <SfML/Graphics/Rect.hpp>
 #include <functional>
@@ -16,6 +17,11 @@ class ColliderComponent : public IComponent, public ICallEvent<std::function<voi
 public:
 	ColliderComponent(Entity& entity);
 	~ColliderComponent();
+
+	enum MaskMode {
+		Strict,
+		Flex
+	};
 
 	virtual void Start() override;
 	virtual void Update(float fDeltaTime) override;
@@ -37,6 +43,12 @@ public:
 	inline void SetIsTrigger(bool isTrigger) { IsTrigger = isTrigger; }
 	inline bool GetIsTrigger() const { return IsTrigger; }
 
+	inline void SetCollisionFilterMask(Tags::Tag newMask) { mask = newMask; }
+	inline const Tags::Tag& GetCollisionFilterMask() { return mask; }
+
+	inline void SetMaskMode(MaskMode mode) { maskMode = mode; }
+	inline const MaskMode& GetMaskMode() { return maskMode; }
+
 	inline const sf::FloatRect& GetHitbox() const { return rect; }
 
 	void OnCollisionCallback(ColliderComponent* otherCollider);
@@ -46,6 +58,9 @@ private:
 	bool IsTrigger;
 	sf::FloatRect rect;
 	sf::Vector2f offset;
+
+	MaskMode maskMode;
+	Tags::Tag mask;
 
 #ifdef _USE_IMGUI
 	bool displayColliderDebug;

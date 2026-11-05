@@ -1,6 +1,8 @@
 #include "ColliderComponent.h"
 #include "Entity.h"
 
+#include <Profiler.h>
+
 #ifdef _USE_IMGUI
 #include <Imgui/imgui.h>
 #include <SFML/Graphics/RectangleShape.hpp>
@@ -8,7 +10,8 @@
 #include "TransformComponent.h"
 #endif
 
-ColliderComponent::ColliderComponent(Entity& entity):IComponent(entity),active(true),IsTrigger(false) {
+ColliderComponent::ColliderComponent(Entity& entity):IComponent(entity),active(true),IsTrigger(false),
+maskMode(MaskMode::Flex),mask(Tags::Tag::None) {
 	rect.size = sf::Vector2f(10, 10);
 	rect.position = sf::Vector2f(0, 0);
 #ifdef _USE_IMGUI
@@ -25,7 +28,9 @@ void ColliderComponent::Start() {
 }
 
 void ColliderComponent::Update(float fDeltaTime) {
+	PROFILER_EVENT_BEGIN(PROFILER_COLOR_GREEN, "Update Collider");
 	rect.position = offset + GetEntity().GetComponent<TransformComponent>()->GetWorldPosition();
+	PROFILER_EVENT_END();
 }
 
 void ColliderComponent::Destroy() {

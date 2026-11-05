@@ -3,6 +3,8 @@
 #include <string>
 #include <vector>
 
+#include "Tag.hpp"
+
 class IComponent;
 
 namespace sf
@@ -26,6 +28,11 @@ public:
 	template <typename C>
 	C* GetComponent() const;
 
+	void AddTag(Tags::Tag tag);
+	void RemoveTag(Tags::Tag tag);
+	bool HasTag(Tags::Tag tag);
+	bool HasAtLeastOneTag(Tags::Tag tag);
+
 	/*
 	 * This function will be removed later, when the rendering system will be more robust. But for now, we need it here.
 	 * Function that will be called each frame to draw the entity
@@ -36,6 +43,8 @@ public:
 	const std::string& GetName() const { return FriendlyName; }
 
 protected:
+	Tags::Tag tags;
+
 	std::string FriendlyName;
 	std::vector<IComponent*> Components;
 };

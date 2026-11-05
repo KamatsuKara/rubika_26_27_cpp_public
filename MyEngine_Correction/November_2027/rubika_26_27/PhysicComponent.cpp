@@ -3,6 +3,7 @@
 #ifdef _USE_IMGUI
 #include <Imgui/imgui.h>
 #endif
+#include <Profiler.h>
 
 #include "Globals.h"
 #include "Logger.h"
@@ -36,8 +37,10 @@ void PhysicComponent::Start() {
 }
 
 void PhysicComponent::Update(float fDeltaTime) {
+	PROFILER_EVENT_BEGIN(PROFILER_COLOR_BLUE, "Update Physic");
 	velocity = GetEntity().GetComponent<TransformComponent>()->GetWorldPosition() - oldPos;
 	oldPos = GetEntity().GetComponent<TransformComponent>()->GetWorldPosition();
+	PROFILER_EVENT_END();
 }
 
 void PhysicComponent::Destroy() {

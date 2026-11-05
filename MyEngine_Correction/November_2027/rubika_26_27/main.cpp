@@ -35,6 +35,9 @@ int main()
         Player* player = scene->CreateEntity<Player>("Player");
         player->GetComponent<TransformComponent>()->SetWorldPosition(sf::Vector2f(50, 50));
         Obstacle* obstacle = scene->CreateEntity<Obstacle>("Obstacle");
+
+        for(int i = 0; i < 100; ++i)
+            scene->CreateEntity<Obstacle>(std::string("Obstacle"));
     }
 
     gData.SceneMgr->SetActiveScene("Main");
@@ -70,9 +73,11 @@ int main()
 
         PROFILER_EVENT_END();
 
-        gData.Update(fDeltaTimeS);
 
         PROFILER_EVENT_BEGIN(PROFILER_COLOR_RED, "Update");
+        
+        gData.Update(fDeltaTimeS);
+
 #ifdef _USE_IMGUI
         ImGui::SFML::Update(window, imGuiTime);
 #endif

@@ -10,5 +10,6 @@ inline E* Scene::CreateEntity(const std::string& entityName)
 
 	E* e = new E(entityName);
 	Entities.push_back(e);
+	UpdateCacheEntity(e);
 	return e;
 }
