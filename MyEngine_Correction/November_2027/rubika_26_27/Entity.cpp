@@ -2,6 +2,7 @@
 
 #include <IComponent.h>
 #include <RenderComponent.h>
+#include <ColliderComponent.h>
 #include <Imgui/imgui.h>
 
 
@@ -49,6 +50,13 @@ void Entity::Draw(sf::RenderWindow& window) const
 	{
 		r->Draw(window);
 	}
+#ifdef _USE_IMGUI
+	ColliderComponent* c = GetComponent<ColliderComponent>();
+	if (c)
+	{
+		c->Draw(window);
+	}
+#endif
 }
 
 void Entity::DrawDebug()

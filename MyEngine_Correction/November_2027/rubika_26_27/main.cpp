@@ -3,17 +3,19 @@
 #include <Imgui/imgui-SFML.h>
 
 #include <Globals.h>
+
 #include <TextureMgr.h>
 #include <SceneMgr.h>
 #include <InputMgr.hpp>
+
 #include <Scene.h>
 #include <Profiler.h>
 #include <Logger.h>
-#include <Entity.h>
+
+#include <Player.hpp>
+#include <Obstacle.hpp>
+
 #include <TransformComponent.h>
-#include <MovementComponent.hpp>
-#include <RenderComponent.h>
-#include <SpriteDrawable.h>
 
 int main()
 {
@@ -23,76 +25,16 @@ int main()
 
     ImGui::SFML::Init(window);
 
-    const char* texturePath = "../Ressources/IsaacSprite.png";
-    gData.TextureMgr->LoadTexture(texturePath);
+    gData.TextureMgr->LoadTexture("../Ressources/IsaacSprite.png");
+    gData.TextureMgr->LoadTexture("../Ressources/Basement.png");
 
     gData.InputMgr->LoadInput("../Ressources/Input.xml");
 
-    // Input
-    /*gData.InputMgr->CreateInputAction("Up");
-    gData.InputMgr->CreateInputAction("Down");
-    gData.InputMgr->CreateInputAction("Left");
-    gData.InputMgr->CreateInputAction("Right");
-
-    gData.InputMgr->BindAction(sf::Keyboard::Key::Up, "Up");
-    gData.InputMgr->BindAction(sf::Keyboard::Key::Down, "Down");
-    gData.InputMgr->BindAction(sf::Keyboard::Key::Left, "Left");
-    gData.InputMgr->BindAction(sf::Keyboard::Key::Right, "Right");*/
-
     Scene* scene = gData.SceneMgr->CreateScene("Main");
     {
-        Entity* entity = scene->CreateEntity("MainEntity");
-        TransformComponent* tc = entity->AddComponent<TransformComponent>();
-        {
-            tc->SetWorldPosition(sf::Vector2f(100.f, 100.f));
-        }
-
-        MovementComponent* mc = entity->AddComponent<MovementComponent>();
-        {
-            mc->SetSpeed(30);
-        }
-
-        RenderComponent* rc = entity->AddComponent<RenderComponent>();
-        {
-            SpriteDrawable* bodySprite = rc->AddNewDrawable<SpriteDrawable>("Body", sf::Vector2f(2, 0), 0, sf::Vector2f(1, 1));
-            bodySprite->SetVisibility(true);
-            bodySprite->SetTexture(texturePath);
-            bodySprite->SetAnimation("Body_Vertical");
-
-            SpriteDrawable* headSprite = rc->AddNewDrawable<SpriteDrawable>("Head", sf::Vector2f(-2.5f, -20), 0, sf::Vector2f(1, 1));
-            headSprite->SetVisibility(true);
-            headSprite->SetTexture(texturePath);
-            headSprite->SetAnimation("Head_Down");
-        }
-        
-        gData.InputMgr->RegisterToInputAction(
-            "Up","Up",
-            [entity](float v) {
-                entity->GetComponent<MovementComponent>()->SetDirection(
-                    sf::Vector2f(entity->GetComponent<MovementComponent>()->GetDirection().x, v==1?-1:0));
-            },
-            entity);
-        gData.InputMgr->RegisterToInputAction(
-            "Down","Down",
-            [entity](float v) {
-                entity->GetComponent<MovementComponent>()->SetDirection(
-                    sf::Vector2f(entity->GetComponent<MovementComponent>()->GetDirection().x, v==1?1:0));
-            },
-            entity);
-        gData.InputMgr->RegisterToInputAction(
-            "Right","Right",
-            [entity](float v) {
-                entity->GetComponent<MovementComponent>()->SetDirection(
-                    sf::Vector2f(v==1?1:0, entity->GetComponent<MovementComponent>()->GetDirection().y));
-            },
-            entity);
-        gData.InputMgr->RegisterToInputAction(
-            "Left","Left",
-            [entity](float v) {
-                entity->GetComponent<MovementComponent>()->SetDirection(
-                    sf::Vector2f(v==1?-1:0, entity->GetComponent<MovementComponent>()->GetDirection().y));
-            },
-            entity);
+        Player* player = scene->CreateEntity<Player>("Player");
+        player->GetComponent<TransformComponent>()->SetWorldPosition(sf::Vector2f(50, 50));
+        Obstacle* obstacle = scene->CreateEntity<Obstacle>("Obstacle");
     }
 
     gData.SceneMgr->SetActiveScene("Main");

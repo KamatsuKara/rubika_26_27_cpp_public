@@ -21,20 +21,6 @@ void InputAction::SetValue(float value) {
 	}
 }
 
-void InputAction::RegisterCallback(const std::string& debugName, std::function<void(float)> callback, void* owner) {
-	Callbacks.push_back({ debugName,callback,owner });
-}
-
-void InputAction::UnregisterCallbacks(void* owner) {
-	for (std::size_t i = 0; i<Callbacks.size(); i++)
-	{
-		if (Callbacks[i].Owner == owner) {
-			Callbacks.erase(Callbacks.begin() + i);
-			i--;
-		}
-	}
-}
-
 void InputAction::DrawDebug()
 {
 #ifdef _USE_IMGUI

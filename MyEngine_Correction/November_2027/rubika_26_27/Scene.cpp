@@ -1,6 +1,7 @@
 #include "Scene.h"
 
 #include <Entity.h>
+#include "ColliderComponent.h"
 
 #include <Imgui/imgui.h>
 
@@ -26,6 +27,22 @@ void Scene::Update(float fDeltaTime)
 	{
 		e->Update(fDeltaTime);
 	}
+
+	for (std::size_t i1 = 0; i1 < Entities.size(); ++i1)
+	{
+		if (ColliderComponent* colliderE1 = Entities[i1]->GetComponent<ColliderComponent>()) {
+			for (std::size_t i2 = i1+1; i2 < Entities.size(); ++i2)
+			{
+				if (ColliderComponent* colliderE2 = Entities[i2]->GetComponent<ColliderComponent>()) {
+					std::optional<sf::FloatRect> intersect = colliderE1->GetHitbox().findIntersection(colliderE2->GetHitbox());
+					if (intersect.has_value()) {
+						colliderE1->OnCollisionCallback(colliderE2);
+						colliderE2->OnCollisionCallback(colliderE1);
+					}
+				}
+			}
+		}
+	}
 }
 
 void Scene::Destroy()
@@ -34,13 +51,6 @@ void Scene::Destroy()
 	{
 		e->Destroy();
 	}
-}
-
-Entity* Scene::CreateEntity(const std::string& entityName)
-{
-	Entity* e = new Entity(entityName);
-	Entities.push_back(e);
-	return e;
 }
 
 void Scene::RemoveEntity(Entity* entity)

@@ -21,7 +21,8 @@ public:
 	virtual void Update(float fDeltaTime);
 	virtual void Destroy();
 
-	Entity* CreateEntity(const std::string& entityName);
+	template <typename E>
+	E* CreateEntity(const std::string& entityName);
 	void RemoveEntity(Entity* entity);
 
 	/*
@@ -40,3 +41,5 @@ protected:
 	std::size_t Hash;
 	std::vector<Entity*> Entities;
 };
+
+#include "Scene.hxx"
