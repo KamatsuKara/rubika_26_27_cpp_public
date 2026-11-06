@@ -36,6 +36,7 @@ public:
 
 	inline void SetHitboxSize(sf::Vector2f size) { rect.size = size; }
 	inline void SetHitboxOffset(sf::Vector2f newOffset) { offset = newOffset; }
+	inline sf::Vector2f GetHitboxOffset() { return offset; }
 
 	inline void EnableCollision(bool enable) { active = enable; }
 	inline bool AreCollisionsEnabled() const { return active; }
